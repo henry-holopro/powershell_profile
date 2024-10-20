@@ -9,7 +9,7 @@
           "foreground": "#ffffff",
           "leading_diamond": "\ue0b6",
           "style": "diamond",
-          "template": " {{ .HostName }} ",
+          "template": " {{ .UserName }} ",
           "trailing_diamond": "\ue0b0",
           "type": "session"
         },
@@ -167,6 +167,7 @@
       "type": "prompt"
     },
     {
+      "alignment": "right",
       "segments": [
         {
           "background": "#0077c2",
@@ -218,8 +219,35 @@
           "type": "time"
         }
       ],
-      "type": "rprompt"
-    }
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "#ffffff",
+          "leading_diamond": "\ue0b6",
+          "style": "plain",
+          "template": " {{ .HostName }} ",
+          "trailing_diamond": "\ue0b0",
+          "type": "session"
+        },
+        {
+            "foreground": "#ffffff",
+            "foreground_templates": [
+                "{{ if gt .Code 0 }}#ff0000{{ end }}"
+            ],
+            "properties": {
+                "always_enabled": true
+            },
+            "style": "plain",
+            "template": "\u276f ",
+            "type": "status"
+        }
+      ],
+      "type": "prompt"
+  }
   ],
   "console_title_template": "{{ .Shell }} in {{ .Folder }}",
   "final_space": true,
