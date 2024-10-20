@@ -5,16 +5,16 @@
       "alignment": "left",
       "segments": [
         {
-          "background": "#c386f1",
+          "background": "#5347ff",
           "foreground": "#ffffff",
           "leading_diamond": "\ue0b6",
           "style": "diamond",
-          "template": " {{ .UserName }} ",
+          "template": " {{ .HostName }} ",
           "trailing_diamond": "\ue0b0",
           "type": "session"
         },
         {
-          "background": "#ff479c",
+          "background": "#6d92f5",
           "foreground": "#ffffff",
           "powerline_symbol": "\ue0b0",
           "properties": {
@@ -23,7 +23,7 @@
             "style": "folder"
           },
           "style": "powerline",
-          "template": " \uea83  {{ .Path }} ",
+          "template": " \uea83  {{ .PWD }} ",
           "type": "path"
         },
         {
@@ -208,7 +208,7 @@
           "type": "battery"
         },
         {
-          "background": "#2e9599",
+          "background": "#7e47ff",
           "foreground": "#111111",
           "invert_powerline": true,
           "leading_diamond": "\ue0b2",
