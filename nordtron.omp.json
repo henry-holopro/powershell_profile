@@ -11,7 +11,7 @@
             "type": "session"
           },
           {
-            "foreground": "#b48ead",
+            "foreground": "#e4c200",
             "properties": {
               "fetch_stash_count": true,
               "fetch_status": true,
