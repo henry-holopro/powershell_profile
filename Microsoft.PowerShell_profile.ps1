@@ -17,9 +17,12 @@ function Set-Commit {
     [Alias('commit')]
     param (
         [Parameter(Mandatory)]
-        [String]
-        $commitMessage
+        [string]$message
     )
-    Read-Host -Prompt "Commit message: "
-    git commit -a -m $commitMessage
+    
+    if (-not $message) {
+        $message = Read-Host -Prompt "Commit message: "
+    }
+
+    git commit -a -m $message
 }
