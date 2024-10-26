@@ -37,3 +37,13 @@ function Set-Push {
      
     git push
 }
+
+function Set-Add {
+    [Cmdletbinding()]
+    [Alias('add')]
+    param(
+        [Parameter(Position = 0)]
+        [string]$add     
+    )
+    git add $add
+}
