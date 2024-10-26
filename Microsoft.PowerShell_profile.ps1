@@ -19,12 +19,12 @@ function Set-Commit {
     [CmdletBinding()]
     [Alias('commit')]
     param (
-        [Parameter(Mandatory)]
+        [Parameter(Position = 0)]
         [string]$message
     )
     
     if (-not $message) {
-        $message = Read-Host -Prompt "Commit message: "
+        $message = Read-Host -Prompt "Commit message"
     }
 
     git commit -a -m $message
