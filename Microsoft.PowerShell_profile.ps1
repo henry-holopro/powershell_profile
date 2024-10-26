@@ -18,8 +18,8 @@ function Set-Commit {
     param (
         [Parameter(Mandatory)]
         [String]
-        $message
+        $commitMessage
     )
     Read-Host -Prompt "Commit message: "
-    git commit -a -m $message
+    git commit -a -m $commitMessage
 }
