@@ -14,9 +14,12 @@ oh-my-posh init pwsh --config "$profilePath/nordtron.omp.json" | Invoke-Expressi
 
 function Set-Commit {
     [CmdletBinding()]
+    [Alias('commit')]
     param (
-        [Parameter(message)]
-        [string]
+        [Parameter(Mandatory)]
+        [String]
         $message
     )
+    Read-Host -Prompt "Commit message: "
+    git commit -a -m $message
 }
