@@ -29,3 +29,11 @@ function Set-Commit {
 
     git commit -a -m $message
 }
+
+function Set-Push {
+    [Cmdletbinding()]
+    [Alias('push')]
+    param()
+     
+    git push
+}
