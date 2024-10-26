@@ -1,12 +1,15 @@
+$profilePath = ""
 $profilePath = Split-Path -Path $PROFILE -Parent
 
-$apps = ("JanDeDobbeleer.OhMyPosh", "GNU.nano")
+$apps = @{
+    "oh-my-posh" = "JanDeDobbeleer.OhMyPosh"
+    "nano" = "GNU.nano"
+}
 
-foreach ($app in $apps) {
-    $testapp = $($app -split "\." | Select-Object -Last 1)
-    if (-not $(Start-Process $testapp -ArgumentList "--version")) {
-        Write-Host "$testapp not found on system, installing."
-        winget install $app -s winget
+foreach ($app in $apps.Keys) {
+    if (-not $(Get-Command $app -ErrorAction SilentlyContinue)) {
+        Write-Host "$app not found on system, installing..."
+        winget install $apps[$app] -s winget
     }
 }
 
