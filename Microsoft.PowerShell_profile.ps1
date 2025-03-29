@@ -63,6 +63,7 @@ function Start-BWCli {
         $bw_login = Invoke-Expression $loginCommand -ErrorAction Stop
     }
     catch {
+        Write-Output "Error: $($_.Exception.Message)"
         Exit 1
     }
     # Extract the session key command using regex
@@ -82,26 +83,36 @@ function Start-BWCli {
     }
 }
 
+# Authenticate NinjaOne CLI Module
 function Start-NOCli {
     [Cmdletbinding()]
     [Alias('nocli')]
     param()
     
     try {
-        Invoke-Expression Start-BWCli
-        $collectionId = Invoke-Expression -Command 'bw get item "fd2df932-9e63-4a47-98b1-b2af0044890c"'-ErrorAction Stop
-        $NOCli = $collectionId | ConvertFrom-Json
-        $instance = $NOCli.fields | Where-Object { $_.name -eq "Instance" } | Select-Object -ExpandProperty value
-        $clientID = $NOCli.fields | Where-Object { $_.name -eq "ClientID" } | Select-Object -ExpandProperty value
-        $clientSecret = $NOCli.fields | Where-Object { $_.name -eq "ClientSecret" } | Select-Object -ExpandProperty value
-        $scopes = $NOCli.fields | Where-Object { $_.name -eq "Scopes" } | Select-Object -ExpandProperty value
-
-        Connect-NinjaOne -Instance $instance -ClientID $ClientID -ClientSecret $ClientSecret -UseClientAuth -Scopes $Scopes -ErrorAction Stop
+        Invoke-Expression Start-BWCli # Unlock Bitwarden CLI session
+        $NOCli = (Invoke-Expression -Command 'bw get item "fd2df932-9e63-4a47-98b1-b2af0044890c"' -ErrorAction Stop) | ConvertFrom-Json
+        $fieldValues = @{}
+        foreach ($field in $NOCli.fields) {
+            if ($field.name -in @("Instance", "ClientID", "ClientSecret", "Scopes")) {
+                $fieldValues[$field.name] = $field.value
+            }
+        }
+        $connectParams = @{
+            Instance      = $fieldValues["Instance"]
+            ClientID      = $fieldValues["ClientID"] 
+            ClientSecret  = $fieldValues["ClientSecret"]
+            UseClientAuth = $true
+            Scopes        = $fieldValues["Scopes"]
+            ErrorAction   = 'Stop'
+        }
+        Connect-NinjaOne @connectParams
     }
     catch {
         Write-Output "Error: $($_.Exception.Message)"
     }
     finally {
+        # Ensure Bitwarden vault locks after use
         Invoke-Expression -Command "bw lock" 
     }   
 }
