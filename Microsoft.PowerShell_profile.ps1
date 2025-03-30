@@ -106,7 +106,8 @@ function Start-NOCli {
             Scopes        = $fieldValues["Scopes"]
             ErrorAction   = 'Stop'
         }
-        Connect-NinjaOne @connectParams
+        Connect-NinjaOne @connectParams -ErrorAction Stop
+        Write-Output "Connected to NinjaOne"
     }
     catch {
         Write-Output "Error: $($_.Exception.Message)"
