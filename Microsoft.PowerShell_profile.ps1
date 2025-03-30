@@ -117,3 +117,20 @@ function Start-NOCli {
         Invoke-Expression -Command "bw lock" 
     }   
 }
+
+function Test-Hash {
+    [CmdletBinding()]
+    [Alias('ht')]
+    param (
+        [Parameter(Position = 0)]
+        [string]$filepath
+    )
+    $hashToTest = Read-Host -Prompt "Enter the hash to test against"
+
+    $hash = Get-FileHash -Path $filepath
+    if ($hash.Hash -eq $hashToTest) {
+        Write-Output "File integrity verified"
+    } else {
+        Write-Output "File may be corrupted or tampered with"
+    }
+}
